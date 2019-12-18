@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import { useInputChange } from "../../hooks/useInputChange";
 import { Form, Col, Button, Row } from "react-bootstrap";
 import "./SignUp.css";
 // import FormElement from "../FormElement/FormElement";
 
 export default function SignUp(...params) {
-  const [input, setInput] = useState({});
-  const handleInputChange = e =>
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    });
+  const [input, handleInputChange] = useInputChange({});
   return (
     <Form>
       <Form.Row>

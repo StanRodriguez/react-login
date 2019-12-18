@@ -1,14 +1,42 @@
 import React from "react";
+import { useInputChange } from "../../hooks/useInputChange";
 import "./Login.css";
-import FormElement from "../FormElement/FormElement";
+import { Form, Col, Button, Row } from "react-bootstrap";
 
 export default function Login(...params) {
+  const [input, handleInputChange] = useInputChange();
   return (
-    <form>
-      <FormElement name="username" label="Username" type="text" />
-      <FormElement name="password" label="Password" type="password" />
-      <button>Log In</button>
-      <button>Sign Up</button>
-    </form>
+    <Form>
+      <Form.Row>
+        <Col>
+          <h1>Create a new account</h1>
+        </Col>
+      </Form.Row>
+      <Form.Row>
+        <Col sm="5">
+          <Form.Label htmlFor="username">Username</Form.Label>
+        </Col>
+        <Col sm="7">
+          <Form.Control name="username" onChange={handleInputChange} />
+        </Col>
+      </Form.Row>
+      <Form.Row>
+        <Col sm="5">
+          <Form.Label htmlFor="pass">Password</Form.Label>
+        </Col>
+        <Col sm="7">
+          <Form.Control name="pass" onChange={handleInputChange} />
+        </Col>
+      </Form.Row>
+      <br />
+      <Row className="justify-content-sm-center">
+        <Col>
+          <Button variant="secondary">Log In</Button>
+        </Col>
+        <Col>
+          <Button variant="primary">Sign Up</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 }
