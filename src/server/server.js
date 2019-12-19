@@ -1,10 +1,12 @@
 const express = require("express");
 const { User, sequelize } = require("./db/models");
 const bodyParser = require("body-parser");
-const op = sequelize.Op;
+
+const cors = require("cors");
 const app = express();
 const port = 4000;
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.post("/create", async (req, res) => {
@@ -17,9 +19,9 @@ app.post("/create", async (req, res) => {
       email,
       password
     });
-    res.send("El usuario fue creado:", result.id);
+    res.status(200).send("El usuario fue creado: " + result.id);
   } catch (error) {
-    res.status(500).send({ message: error });
+    res.status(500).send(error);
   }
 });
 app.post("/login", async (req, res) => {
@@ -32,7 +34,7 @@ app.post("/login", async (req, res) => {
       password
     }
   });
-  if (user) res.send("Good");
+  if (user) res.json({ user });
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

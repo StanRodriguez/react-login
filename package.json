@@ -1,7 +1,7 @@
 {
   "name": "login_aponia",
   "version": "0.1.0",
-  "proxy": "https://localhost:4000",
+  "proxy": "http://localhost:4000",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
@@ -10,6 +10,7 @@
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "pg": "^7.15.1",
     "pg-hstore": "^2.3.3",
