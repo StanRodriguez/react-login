@@ -1,5 +1,4 @@
 const Sequelize = require("sequelize");
-const validator = require("validator");
 const sequelize = new Sequelize(
   "postgres://postgres:1004@localhost:5432/aponia"
 );
