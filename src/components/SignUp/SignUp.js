@@ -19,6 +19,8 @@ export default function SignUp({ setUserCreated }) {
     e.preventDefault();
     // e.target.reset();
     if (input.password.length < 5) {
+      console.log(input.password.length);
+
       setPassMin(false);
     } else if (
       passwordMatch &&
@@ -136,6 +138,9 @@ export default function SignUp({ setUserCreated }) {
                 required
                 type="password"
                 name="password"
+                onFocus={() => {
+                  setPassMin(true);
+                }}
                 className={passwordMatch ? "" : "error"}
                 onKeyUp={handlePassword}
                 onChange={handleInputChange}
