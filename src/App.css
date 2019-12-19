@@ -7,3 +7,28 @@ main {
   justify-content: center;
   color: #282c34;
 }
+main > * {
+  -webkit-box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.36);
+  -moz-box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.36);
+  box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.36);
+}
+.message {
+  display: absolute;
+  animation-name: transactions;
+  animation-duration: 5s;
+  animation-direction: normal;
+  animation-fill-mode: forwards;
+}
+@keyframes transactions {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    visibility: hidden;
+    display: none;
+    overflow: hidden;
+  }
+}

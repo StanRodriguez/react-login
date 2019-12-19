@@ -16,7 +16,9 @@ function App() {
     <div className="App">
       <main>
         {userCreated ? (
-          <Alert variant="primary">User created successfully</Alert>
+          <Alert className="message" variant="success">
+            User created successfully
+          </Alert>
         ) : (
           ""
         )}

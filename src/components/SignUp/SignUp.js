@@ -33,19 +33,16 @@ export default function SignUp({ setUserCreated }) {
     else setPasswordMatch(true);
   }
 
-  async function handleUsernameExist(e) {
+  async function handleExist(e) {
     const { name } = e.target;
 
     try {
       const response = await axios.post("http://localhost:4000/exist", {
         [name]: input[name]
       });
-      console.log(response.data);
-
       if (response.data.username !== undefined)
         setUserExist(response.data.username);
-      else if (response.data.email !== undefined)
-        setEmailExist(response.data.email);
+      else setEmailExist(response.data.email);
     } catch (error) {
       console.error("Error trying to create user:", error);
     }
@@ -87,8 +84,9 @@ export default function SignUp({ setUserCreated }) {
               <Form.Control
                 type="email"
                 name="email"
+                className={emailExist ? "error" : ""}
                 onChange={handleInputChange}
-                onBlur={handleUsernameExist}
+                onBlur={handleExist}
               />
               {emailExist ? (
                 <Form.Text className="error-text">
@@ -108,7 +106,7 @@ export default function SignUp({ setUserCreated }) {
                 required
                 name="username"
                 className={userExist ? "error" : ""}
-                onKeyUp={handleUsernameExist}
+                onKeyUp={handleExist}
                 onChange={handleInputChange}
               />
               {userExist ? (
@@ -163,7 +161,7 @@ export default function SignUp({ setUserCreated }) {
             </Col>
           </Form.Row>
           <br />
-          <Row className="justify-content-sm-center">
+          <Row className="justify-content-md-center">
             <Col>
               <Link to="/">
                 <Button variant="secondary">Back</Button>
