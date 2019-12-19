@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Card, Row, Col, Container } from "react-bootstrap";
+import { Button, Card, Row, Col } from "react-bootstrap";
 export default function Home({ user, setIsLoggedIn }) {
   const { firstName, lastName, email, username } = user;
   return (
