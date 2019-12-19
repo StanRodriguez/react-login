@@ -2,12 +2,16 @@ import React from "react";
 import { useInputChange } from "../../hooks/useInputChange";
 import { Form, Col, Button, Row } from "react-bootstrap";
 import "./SignUp.css";
-// import FormElement from "../FormElement/FormElement";
 
 export default function SignUp(...params) {
   const [input, handleInputChange] = useInputChange({});
+  async function createUser(e) {
+    e.preventDefault();
+    const response = await fetch("http://localhost:3001");
+    console.log(response);
+  }
   return (
-    <Form>
+    <Form onSubmit={createUser}>
       <Form.Row>
         <Col>
           <h1>Create a new account</h1>
@@ -67,7 +71,9 @@ export default function SignUp(...params) {
           <Button variant="secondary">Back</Button>
         </Col>
         <Col>
-          <Button variant="primary">Create</Button>
+          <Button type="submit" variant="primary">
+            Create
+          </Button>
         </Col>
       </Row>
     </Form>
