@@ -36,5 +36,18 @@ app.post("/login", async (req, res) => {
   });
   if (user) res.json({ user });
 });
+app.post("/exist", async (req, res) => {
+  const { username } = req.body;
+
+  console.log(req.body);
+
+  const user = await User.findOne({
+    where: {
+      username
+    }
+  });
+  if (user) res.json({ exist: true });
+  else res.json({ exist: false });
+});
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

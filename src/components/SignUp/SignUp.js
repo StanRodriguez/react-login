@@ -9,16 +9,19 @@ import { Link, useHistory } from "react-router-dom";
 export default function SignUp(...params) {
   const [input, handleInputChange] = useInputChange({});
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [userExist, setUserExist] = useState(false);
   const history = useHistory();
 
   async function createUser(e) {
     e.preventDefault();
     e.target.reset();
-    try {
-      await axios.post("http://localhost:4000/create", input);
-      history.push("/");
-    } catch (error) {
-      console.error("Error trying to create user:", error);
+    if (passwordMatch && !userExist) {
+      try {
+        await axios.post("http://localhost:4000/create", input);
+        history.push("/");
+      } catch (error) {
+        console.error("Error trying to create user:", error);
+      }
     }
   }
 
@@ -31,7 +34,14 @@ export default function SignUp(...params) {
     }
   }
 
-  function handleUsernameExist() {}
+  async function handleUsernameExist() {
+    try {
+      const data = await axios.post("http://localhost:4000/exist", input);
+      setUserExist(data.data.exist);
+    } catch (error) {
+      console.error("Error trying to create user:", error);
+    }
+  }
   return (
     <Card>
       <Card.Body>
@@ -46,7 +56,11 @@ export default function SignUp(...params) {
               <Form.Label htmlFor="firstName">First Name</Form.Label>
             </Col>
             <Col sm="7">
-              <Form.Control name="firstName" onChange={handleInputChange} />
+              <Form.Control
+                required
+                name="firstName"
+                onChange={handleInputChange}
+              />
             </Col>
           </Form.Row>
           <Form.Row>
@@ -67,10 +81,23 @@ export default function SignUp(...params) {
           </Form.Row>
           <Form.Row>
             <Col sm="5">
-              <Form.Label htmlFor="username">username</Form.Label>
+              <Form.Label htmlFor="username">Username</Form.Label>
             </Col>
             <Col sm="7">
-              <Form.Control name="username" onChange={handleInputChange} />
+              <Form.Control
+                required
+                name="username"
+                className={userExist ? "error" : ""}
+                onKeyUp={handleUsernameExist}
+                onChange={handleInputChange}
+              />
+              {userExist ? (
+                <Form.Text className="text-muted error-text">
+                  This username already exist
+                </Form.Text>
+              ) : (
+                ""
+              )}
             </Col>
           </Form.Row>
           <Form.Row>
@@ -81,6 +108,7 @@ export default function SignUp(...params) {
             </Col>
             <Col sm="7">
               <Form.Control
+                required
                 type="password"
                 name="password"
                 className={passwordMatch ? "" : "error"}
@@ -98,6 +126,7 @@ export default function SignUp(...params) {
             <Col sm="7">
               <Form.Control
                 min={6}
+                required
                 className={passwordMatch ? "" : "error"}
                 type="password"
                 name="confirmPassword"
