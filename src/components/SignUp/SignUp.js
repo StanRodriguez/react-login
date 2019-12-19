@@ -6,18 +6,20 @@ import "./SignUp.css";
 import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 
-export default function SignUp(...params) {
+export default function SignUp({ setUserCreated }) {
   const [input, handleInputChange] = useInputChange({});
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [userExist, setUserExist] = useState(false);
+  const [emailExist, setEmailExist] = useState(false);
   const history = useHistory();
 
   async function createUser(e) {
     e.preventDefault();
-    e.target.reset();
-    if (passwordMatch && !userExist) {
+    // e.target.reset();
+    if (passwordMatch && !userExist && !emailExist) {
       try {
         await axios.post("http://localhost:4000/create", input);
+        setUserCreated(true);
         history.push("/");
       } catch (error) {
         console.error("Error trying to create user:", error);
@@ -27,17 +29,23 @@ export default function SignUp(...params) {
 
   function handlePassword() {
     const { password, confirmPassword } = input;
-    if (password !== confirmPassword) {
-      setPasswordMatch(false);
-    } else {
-      setPasswordMatch(true);
-    }
+    if (password !== confirmPassword) setPasswordMatch(false);
+    else setPasswordMatch(true);
   }
 
-  async function handleUsernameExist() {
+  async function handleUsernameExist(e) {
+    const { name } = e.target;
+
     try {
-      const data = await axios.post("http://localhost:4000/exist", input);
-      setUserExist(data.data.exist);
+      const response = await axios.post("http://localhost:4000/exist", {
+        [name]: input[name]
+      });
+      console.log(response.data);
+
+      if (response.data.username !== undefined)
+        setUserExist(response.data.username);
+      else if (response.data.email !== undefined)
+        setEmailExist(response.data.email);
     } catch (error) {
       console.error("Error trying to create user:", error);
     }
@@ -76,7 +84,19 @@ export default function SignUp(...params) {
               <Form.Label htmlFor="email">Email</Form.Label>
             </Col>
             <Col sm="7">
-              <Form.Control name="email" onChange={handleInputChange} />
+              <Form.Control
+                type="email"
+                name="email"
+                onChange={handleInputChange}
+                onBlur={handleUsernameExist}
+              />
+              {emailExist ? (
+                <Form.Text className="error-text">
+                  Email already exists.
+                </Form.Text>
+              ) : (
+                ""
+              )}
             </Col>
           </Form.Row>
           <Form.Row>
@@ -92,8 +112,8 @@ export default function SignUp(...params) {
                 onChange={handleInputChange}
               />
               {userExist ? (
-                <Form.Text className="text-muted error-text">
-                  This username already exist
+                <Form.Text className="error-text">
+                  This username already exists.
                 </Form.Text>
               ) : (
                 ""
@@ -136,7 +156,7 @@ export default function SignUp(...params) {
               {passwordMatch ? (
                 ""
               ) : (
-                <Form.Text className="text-muted error-text">
+                <Form.Text className="error-text">
                   Passwords don't match
                 </Form.Text>
               )}

@@ -37,17 +37,25 @@ app.post("/login", async (req, res) => {
   if (user) res.json({ user });
 });
 app.post("/exist", async (req, res) => {
-  const { username } = req.body;
-
+  const { username, email } = req.body;
   console.log(req.body);
-
-  const user = await User.findOne({
-    where: {
-      username
-    }
-  });
-  if (user) res.json({ exist: true });
-  else res.json({ exist: false });
+  if (username) {
+    const userExist = await User.findOne({
+      where: {
+        username
+      }
+    });
+    if (userExist) res.json({ username: true });
+    else res.json({ username: false });
+  } else {
+    const emailExist = await User.findOne({
+      where: {
+        email
+      }
+    });
+    if (emailExist) res.json({ email: true });
+    else res.json({ email: false });
+  }
 });
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

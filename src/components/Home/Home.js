@@ -12,30 +12,28 @@ export default function Home({ user, setIsLoggedIn }) {
         </Row>
         <Row>
           <Col>
-            <h3>Name:</h3>
+            <h4>Name:</h4>
           </Col>
           <Col>
-            <h3>
+            <h4>
               {firstName} {lastName}
-            </h3>
+            </h4>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h3>Email:</h3>
+            <h4>Email:</h4>
           </Col>
           <Col>
-            <h3>
-              <h3>{email}</h3>
-            </h3>
+            <h4>{email}</h4>
           </Col>
         </Row>
         <Row>
           <Col>
-            <h3>Username:</h3>
+            <h4>Username:</h4>
           </Col>
           <Col>
-            <h3>{username}</h3>
+            <h4>{username}</h4>
           </Col>
         </Row>
         <Button onClick={() => setIsLoggedIn(false)}>Log out</Button>
