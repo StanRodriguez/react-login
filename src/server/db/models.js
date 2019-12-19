@@ -11,8 +11,8 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 const User = sequelize.define("user", {
-  first_name: Sequelize.STRING,
-  last_name: Sequelize.STRING,
+  firstName: Sequelize.STRING,
+  lastName: Sequelize.STRING,
   email: {
     type: Sequelize.STRING,
     unique: true,

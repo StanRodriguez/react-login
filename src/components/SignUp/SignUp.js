@@ -2,16 +2,23 @@ import React from "react";
 import { useInputChange } from "../../hooks/useInputChange";
 import { Form, Col, Button, Row } from "react-bootstrap";
 import "./SignUp.css";
+import axios from "axios";
 
 export default function SignUp(...params) {
   const [input, handleInputChange] = useInputChange({});
   async function createUser(e) {
     e.preventDefault();
-    const response = await fetch("http://localhost:3001");
-    console.log(response);
+    e.target.reset();
+    try {
+      const response = await axios.post("http://localhost:4000/create", input);
+      console.log(response);
+    } catch (error) {
+      console.error("Error trying to create user:", error);
+    }
   }
+
   return (
-    <Form onSubmit={createUser}>
+    <Form name="signUpForm" onSubmit={createUser}>
       <Form.Row>
         <Col>
           <h1>Create a new account</h1>
@@ -51,18 +58,26 @@ export default function SignUp(...params) {
       </Form.Row>
       <Form.Row>
         <Col sm="5">
-          <Form.Label htmlFor="pass">Password</Form.Label>
+          <Form.Label htmlFor="password">Password</Form.Label>
         </Col>
         <Col sm="7">
-          <Form.Control name="pass" onChange={handleInputChange} />
+          <Form.Control
+            type="password"
+            name="password"
+            onChange={handleInputChange}
+          />
         </Col>
       </Form.Row>
       <Form.Row>
         <Col sm="5">
-          <Form.Label htmlFor="confirmPass">Confirm Password</Form.Label>
+          <Form.Label htmlFor="confirmPassword">Confirm Password</Form.Label>
         </Col>
         <Col sm="7">
-          <Form.Control name="confirmPass" onChange={handleInputChange} />
+          <Form.Control
+            type="password"
+            name="confirmPassword"
+            onChange={handleInputChange}
+          />
         </Col>
       </Form.Row>
       <br />
