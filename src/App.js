@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Login from "./components/Login/Login";
@@ -11,7 +11,9 @@ function App() {
   const [user, setUser] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userCreated, setUserCreated] = useState(false);
-
+  useEffect(() => {
+    setUserCreated(false);
+  }, [user]);
   return (
     <div className="App">
       <main>

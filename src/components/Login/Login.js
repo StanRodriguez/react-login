@@ -27,13 +27,11 @@ export default function Login({ setUser, isLoggedIn, setIsLoggedIn }) {
 
   return (
     <Card>
+      <Card.Header>
+        <h1>Login</h1>
+      </Card.Header>
       <Card.Body>
         <Form onSubmit={logIn}>
-          <Form.Row>
-            <Col>
-              <h1>Login</h1>
-            </Col>
-          </Form.Row>
           <Form.Row>
             <Col sm="5">
               <Form.Label htmlFor="username">Username</Form.Label>

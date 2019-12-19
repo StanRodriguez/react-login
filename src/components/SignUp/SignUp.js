@@ -11,12 +11,21 @@ export default function SignUp({ setUserCreated }) {
   const [passwordMatch, setPasswordMatch] = useState(true);
   const [userExist, setUserExist] = useState(false);
   const [emailExist, setEmailExist] = useState(false);
+  const [passMin, setPassMin] = useState(true);
+
   const history = useHistory();
 
   async function createUser(e) {
     e.preventDefault();
     // e.target.reset();
-    if (passwordMatch && !userExist && !emailExist) {
+    if (input.password.length < 5) {
+      setPassMin(false);
+    } else if (
+      passwordMatch &&
+      !userExist &&
+      !emailExist &&
+      input.password.length > 5
+    ) {
       try {
         await axios.post("http://localhost:4000/create", input);
         setUserCreated(true);
@@ -49,13 +58,11 @@ export default function SignUp({ setUserCreated }) {
   }
   return (
     <Card>
-      <Card.Body>
+      <Card.Header>
+        <h1>Create a new account</h1>
+      </Card.Header>
+      <Card.Body className="sign-up-card">
         <Form name="signUpForm" onSubmit={createUser}>
-          <Form.Row>
-            <Col>
-              <h1>Create a new account</h1>
-            </Col>
-          </Form.Row>
           <Form.Row>
             <Col sm="5">
               <Form.Label htmlFor="firstName">First Name</Form.Label>
@@ -133,6 +140,13 @@ export default function SignUp({ setUserCreated }) {
                 onKeyUp={handlePassword}
                 onChange={handleInputChange}
               />
+              {passMin ? (
+                ""
+              ) : (
+                <Form.Text className="error-text">
+                  The password needs to have at least 6 characters.
+                </Form.Text>
+              )}
             </Col>
           </Form.Row>
           <Form.Row>
