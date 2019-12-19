@@ -23,7 +23,11 @@ function App() {
           ""
         )}
         {isLoggedIn ? (
-          <Home user={user} setIsLoggedIn={setIsLoggedIn} />
+          <Home
+            user={user}
+            isLoggedIn={isLoggedIn}
+            setIsLoggedIn={setIsLoggedIn}
+          />
         ) : (
           <Router>
             <Switch>

@@ -12,6 +12,13 @@ main > * {
   -moz-box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.36);
   box-shadow: 4px 4px 6px 0px rgba(0, 0, 0, 0.36);
 }
+.error {
+  border: red 1px solid;
+}
+.error-text {
+  color: red;
+}
+
 .message {
   display: absolute;
   animation-name: transactions;

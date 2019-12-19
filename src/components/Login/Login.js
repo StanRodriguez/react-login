@@ -1,24 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useInputChange } from "../../hooks/useInputChange";
 import "./Login.css";
 import { Form, Col, Button, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function Login({ setUser, setIsLoggedIn }) {
+export default function Login({ setUser, isLoggedIn, setIsLoggedIn }) {
   const [input, handleInputChange] = useInputChange();
+  const [userPassMatch, setUserPassMatch] = useState(true);
+
   async function logIn(e) {
     e.preventDefault();
-    e.target.reset();
-
     try {
       const data = await axios.post("http://localhost:4000/login", input);
-      setUser(data.data.user);
-      setIsLoggedIn(true);
-
+      if (data.data.user) {
+        setUser(data.data.user);
+        setIsLoggedIn(true);
+      } else {
+        setUserPassMatch(false);
+      }
       console.log(data.data.user);
     } catch (error) {
-      console.error("Error trying to create user:", error);
+      console.error("Error trying to login:", error);
     }
   }
 
@@ -36,7 +39,12 @@ export default function Login({ setUser, setIsLoggedIn }) {
               <Form.Label htmlFor="username">Username</Form.Label>
             </Col>
             <Col sm="7">
-              <Form.Control name="username" onChange={handleInputChange} />
+              <Form.Control
+                required={true}
+                className={userPassMatch ? "" : "error"}
+                name="username"
+                onChange={handleInputChange}
+              />
             </Col>
           </Form.Row>
           <Form.Row>
@@ -45,10 +53,19 @@ export default function Login({ setUser, setIsLoggedIn }) {
             </Col>
             <Col sm="7">
               <Form.Control
+                required={true}
+                className={userPassMatch ? "" : "error"}
                 type="password"
                 name="password"
                 onChange={handleInputChange}
               />
+              {userPassMatch ? (
+                ""
+              ) : (
+                <Form.Text className="error-text">
+                  Username and/or password incorrect.
+                </Form.Text>
+              )}
             </Col>
           </Form.Row>
           <br />

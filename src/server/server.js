@@ -1,5 +1,5 @@
 const express = require("express");
-const { User, sequelize } = require("./db/models");
+const { User } = require("./db/models");
 const bodyParser = require("body-parser");
 
 const cors = require("cors");
@@ -35,6 +35,7 @@ app.post("/login", async (req, res) => {
     }
   });
   if (user) res.json({ user });
+  else res.json({ user: false });
 });
 app.post("/exist", async (req, res) => {
   const { username, email } = req.body;
